@@ -7,4 +7,4 @@ pdf:
 	pdflatex ${filename}
 
 clean:
-	rm -f ${filename}.ps ${filename}.pdf ${filename}.log ${filename}.aux ${filename}.out ${filename}.dvi ${filename}.bbl main.synctex.gz ${filename}.blg
+	rm -f main.toc ${filename}.ps ${filename}.pdf ${filename}.log ${filename}.aux ${filename}.out ${filename}.dvi ${filename}.bbl main.synctex.gz ${filename}.blg
