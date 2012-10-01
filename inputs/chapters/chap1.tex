@@ -4,9 +4,9 @@
 
 		Assume two data sets, as depicted in 
 		Figures~\ref{fig:chap1_scatters}. Each data set has two known classes, 
-		represented by asterisks and x marks. Consider that we are interested in 
+		represented by circles and x marks. Consider that we are interested in 
 		classifying new-observations of unknown data, represented by black bullet 
-		marks, in either asterisks and x marks class. 
+		marks, in either circles and x marks class. 
       Empirically, we may conclude that a given observation belong to the class 
 		of the known  data, whose it has the \emph{closest relation}. However, 
       in same cases,  we might mislead the  classification of black bullets if the 
@@ -22,7 +22,7 @@
 		 		\includegraphics[width=0.45\textwidth]{inputs/img/chap1_scatter_intro_ds1} &
 				\includegraphics[width=0.45\textwidth]{inputs/img/chap1_scatter_intro_ds2} \\
 			\end{tabular}
-			\caption{Two classification examples in two dimensions. There are two known classes, asterisks and x marks. The problem is to classify the the unknown data, black bullets, into one of the two classes.}
+			\caption{Two classification examples in two dimensions. There are two known classes, circles and x marks. The problem is to classify the the unknown data, black bullets, into one of the two classes.}
 		  	\label{fig:chap1_scatters}
 		\end{figure}
 
@@ -89,7 +89,7 @@
 
 	\section{Prediction problem statement.}
 		
-		\subsection{Types Prediction problems.}
+		\subsection{Types of prediction problems.}
 			Based on the learning scenario, we can list predictions problems as follows:
 	
 			\begin{itemize}
@@ -138,7 +138,7 @@
 					\begin{itemize}
 							\item Binary classification: $l(y,f(x)) = 1|\{y \neq f(x)\}$.
 							\item Regression: $l(y,f(x))=(y_f(x))^2$.
-							\item Optimization issue: $l(y,f(x))=(1-yf(x))_+ = \Phi(yf(x))$.
+							\item Optimization issue: $l(y,f(x))=(1-yf(x))_+ = \varphi(yf(x))$.
 							\item Log likelihood: $l(f(x))=\ln(f(x))$.
 					\end{itemize}
 
