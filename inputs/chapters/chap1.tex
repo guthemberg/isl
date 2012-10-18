@@ -136,11 +136,265 @@
 			
 			Examples of loss:
 					\begin{itemize}
-							\item Binary classification: $l(y,f(x)) = 1|\{y \neq f(x)\}$.
-							\item Regression: $l(y,f(x))=(y_f(x))^2$.
-							\item Optimization issue: $l(y,f(x))=(1-yf(x))_+ = \varphi(yf(x))$.
-							\item Log likelihood: $l(f(x))=\ln(f(x))$.
+							\item Binary classification: $\ell(y,f(x)) = 1|\{y \neq f(x)\}$.
+							\item Regression: $\ell(y,f(x))=(y_f(x))^2$.
+							\item Optimization issue: $\ell(y,f(x))=(1-yf(x))_+ = \varphi(yf(x))$.
+							\item Log likelihood: $\ell(f(x))=\ln(f(x))$.
 					\end{itemize}
 
-	\section{Example: supervised classification}
-		%\subsection{} 
+		\subsection{Optimal function}
+			Optimal results are found through:
+			\[
+				f^*=\underset{y}{\operatorname{argmin}}R(f) 
+			\]
+
+			e.g., in regression :
+
+			\[
+			  \begin{cases}
+			   y \subseteq Y &  \\
+			   \ell(y,f(x)) = (y-f(x))^2   & 
+			  \end{cases}
+			\]
+			\[
+				f^*=\mathbb{E}(Y|X=x) 
+			\]
+			is the mathematical expectation (orthogonal projection), only if $f(x)\in L^2$, where $L^2 = \{\xi = h(x);h(x)\in L^2\}$
+
+		  \begin{align*}
+				\forall Z, Z^{'} \mbox{random variable in } R\\
+				%
+				\langle Z,Z^{'}\rangle = \int zz'\, dP_Z(z)dP_{Z'}(z')\\
+		  \end{align*}
+		  \begin{align*}
+            R(f) &= \mathbb{E} [(y-f^*(x))+f^*(x)-f(x))^2]\\
+						 &= \mathbb{E}[(y-f^*(x))^2]+\mathbb{E}[(f^*(x)-f(x))^2]\\
+						 &+ 2\mathbb{E}[(y-f^*(x))(f^*(x)-f(x))]
+		  \end{align*}
+
+		\subsection{Learning problem.}
+			Sampling on $\mathbb{P}$, for example,
+		  \[
+				(X_1,Y_2)\ldots(X_n,Y_n)=\mathcal{D}_n
+		  \]
+		  n-sampling i.i.d. from $\mathbb{P}$, this is called supervised learning.
+
+			In unsupervised learning, we have,
+		  \[
+				(X_1,X_2,\ldots,X_n)
+		  \]
+		  labels must be found through learning, such as in anomaly detection problems.
+
+			We may have to deal with semi-supervised,
+		  \[
+								(X_1,Y_2)\ldots(X_m,Y_m) X_{m+1},\ldots,X_n)
+		  \]
+		  one might use generative approach in order to define $\mathbb{P}$ (e.g. manfold learning). 
+
+		\subsubsection{Learning methods/learnt rule.}
+		  \[
+				\mathcal{D}_n = \hat{f_n} \in \mathcal{F}
+		  \]
+		  where $\hat{f_n}$ is defined from $\mathcal{D}_n$.
+		  \[
+				\hat{f_n}(\cdot)= \hat{f}(\cdot,\mathcal{D}_n)
+		  \]
+		  It raises a quite interesting question, what is a \emph{good} rule? The answer to this question is in the heart of this course.
+
+		\subsubsection{Error measurement in a learnt rule.}
+		  \[
+				R(\hat{f_n}) = \mathbb{E}(l(Y,\hat{f_n}(x))|\mathcal{D}_n) 
+		  \]
+
+		\subsubsection{Learnt rule consistency.}
+		  By consistency, a statistical term, we mean rule convergence.
+		  \begin{align*}
+            \hat{f_n} &: \mbox{learnt rule.}\\
+            f^* &: \mbox{optimum rule/function.}\\
+            R&: \mbox{error measurement.}\\
+		  \end{align*}
+		  Def. of high and low consistency,
+		  \[
+				R(\hat{f_n}) \xrightarrow[n\to \infty]{\mathbb{P}\text{ faible/presque sur}} R(f^*) 
+		  \]
+
+	\section{Supervised classification and optimum elements (examples).}
+		  Consider that $\mathbb{P}$ is known and we are looking for $f^*$.
+
+		\subsection{Binary classification.}
+  			\[
+				\mathnormal{f}:\mathbb{R}^d\rightarrow\{0,1\} \mbox{ or } \{-1,1\}
+  			\]
+  			\[
+			    R(f)=\mathbb{E}[\mathds{1}\{Y\neq f(x)\}]=\mathbb{P}(Y\neq f(x))) 
+  			\]
+			where $R(f)$ is the error criteria (note, $\mathds{1}$ means \emph{indicator function}).
+  			Now, the question is what is the best $f$.
+	
+			Property: If $y=\{0,1\}, l(u,v)=\mathds{1}\{u\neq v\}$, and
+  			\[
+			    f^*(x)=\mathds{1}\{\eta(x)>\frac{1}{2}\} 
+  			\]
+			is the champion, the best one. So that,delta
+
+	      i) $\forall f : \mathds{R}^d \rightarrow \{0,1\} \text{therefore} R(f) \geq R(f^{*})$						
+
+	     ii) $R^* = R(f^*) = \mathbb{E}[\text{min}(\eta(x),1-\eta(x))]$						
+
+	     iii) $\forall f$						
+        \begin{align*}
+            R(f)-R^* = & 2\mathbb{E}[|\eta(x)-\frac{1}{2}|\mathds{1}\{f(x)\neq f^*(x)\}] \\
+                           = & \mathbb{P}(Y\neq f(x))
+        \end{align*}
+	     where $\eta(x)=\mathbb{P}(Y=1|X=x)$
+
+	     Proof for (i):
+        \begin{align*}
+            R(f) = &  \mathbb{E}(\mathds{1}\{Y\neq f(x)\}) \\
+                   = &  \mathbb{E}(\mathds{1}{\{y=0\}}\mathds{1}{\{f(x)=1\}}+\mathds{1}{\{y=1\}}\mathds{1}{\{f(x)=0\}})\\
+                   = &  \mathbb{E}\mathbb{E}( " | X)\\
+                   = &  \text{because } \mathbb{E}(\mathds{1}\{Y=1\}|X)=\eta(x)\\
+                   = &  \mathbb{E}[(1-\eta(x)) \overbrace{\mathds{1}\{f(x)=1\}}^{=1-\mathds{1}\{f(x)=0\}}+\eta(x)\mathds{1}\{f(x)=0\}]\\
+                   = &  \mathbb{E}[(1-\eta(x))] + \mathbb{E}[(2\eta(x)-1)\mathds{1}\{f(x)=0\}]\\
+                   R(f) -R^* = &  \mathbb{E}[\overbrace{(2\eta(x)-1)(\mathds{1}\{f(x)=0\}-\mathds{1}\{f^*(x)=0\})}^{\Delta (f,f^*)}]
+        \end{align*}
+        analysing particular cases,
+
+	     \begin{itemize}
+		      \item if $f^*(x)=0$ and $f(x)=1$, then 
+
+						$2\eta(x)-1<0$ and $\Delta(f,f^*)>0$; 
+
+			   \item if $f^*(x)=1$ and $f(x)=0$, then  
+
+						$2\eta(x)-1>0$ and $\Delta(f,f^*)>0$; 
+	     \end{itemize}
+
+	     Proof for (ii):
+        \begin{align*}
+            R* = R(f^*)= &  \mathbb{E}[(1-\eta(x))\mathds{1}\{f(x)=1\} \\
+           								  &  + \eta(x)\mathds{1}\{f^*(x)=0\}]\\
+            						 = &  \mathbb{E}[\text{min}(\eta(x),1-\eta(x))]=\mathds{1}\{\eta(x)\leq \frac{1}{2}\}
+        \end{align*}
+
+	     Exercises:
+
+	     1) Asymmetric loss, from the proposition 
+
+        $R(f)=R_{\omega}(f) = \mathbb{E}[\omega \mathds{1}\{y=1,f(x)=0\} + (1-\omega)\mathds{1}\{y=0,f(x)=1\}]$
+
+	     2) Preferences 
+
+        $f:\mathbb{R}^d\times\mathbb{R}^d\rightarrow\{-1,0,1\}$
+
+        $(X,X') \rightarrow f(x,x')$
+
+        $R(f)=\mathbb{E}\mathds{1}\{(Y-Y')f(x,x')>0\}$
+
+	   \subsection{Convexity risk for binary classification.}
+
+			\[
+				R(f) = \mathbb{E} \mathds{1}\{Y\neq f(x)\}
+			\]
+			\[
+				y\in \mathcal{F}=\{f_{\omega}\omega \in R\}
+			\]
+
+			\subsubsection{Efficient algorithms that work from convexity criteria.}
+					$R_{\varphi}(h)=\mathbb{E}[\varphi (Yh(x))], Y \in \{-1,1\}$
+
+					where,
+					\[
+						h:\mathbb{R}^d\rightarrow\mathbb{R} \Rightarrow f_n=
+							\mbox{sgn}(h)=\begin{cases}
+        																1  & \mbox{if } h>0 \\
+       																0 & \mbox{otherwise}
+        														\end{cases}
+					\]
+
+					\[
+						{\varphi}:\mathbb{R}\rightarrow\mathbb{R}_+ \mbox{ (convex)}
+					\]
+			\begin{itemize}
+				\item $\varphi(x)=\mbox{e}^{-x}$ (AdaBoost)
+		                   \begin{align*}
+                             R_{\varphi}(h) = & \mathbb{E}[\eta(x)\mbox{e}^{-h(x)}+(1-\eta(x))\mbox{e}^{h(x)}] \\
+                                             &  \mbox{looking for }h^* \mbox{ that minimizes this function}\\
+                                            h^*(x) = &  \underset{\alpha \in \mathbb{R}}{\operatorname{argmin}}[\eta(x)\mbox{e}^{-\alpha}+(1-\eta(x))\mbox{e}^{\alpha}]\\
+                                            = &  \frac{1}{2}\log\frac{\eta(x)}{1-\eta(x)}
+		                   \end{align*}
+								We known that, 
+		                   \begin{align*}
+                             \operatorname{sgn}(h^*) = & f^*\\
+                                             = &  \operatorname{sgn}(\eta - \frac{1}{2})
+		                   \end{align*} 
+				\item $\varphi(x)=(1-x)_+ = \operatorname{max}\{0,1-x\}$
+		                   \begin{align*}
+                             R_{\varphi}(h) = & \mathbb{E}[\eta(x)(1-h(x)_+ + (1-\eta(x)(1+h(x))_+] \\
+                                            h^*(x) = &  \mbox{to exercise, the conclusion is that } \operatorname{sgn}(h^*)=f^*
+		                   \end{align*}
+								We known that, 
+		                   \begin{align*}
+                             \operatorname{sgn}(h^*) = & f^*\\
+                                             = &  \operatorname{sgn}(\eta - \frac{1}{2})
+		                   \end{align*}
+			\end{itemize}
+
+	   \subsection{Scoring.}
+
+			Assuming a classification data $(X_1,Y_1)\ldots(X_n,Y_n)$ n-samplings of data and a binary classification such that $Y:\in \{-1,1\}$, so: 
+			\[
+				(X,Y) \sim \mathbb{P}\mbox{ over }\mathbb{R}^d\times\{-1,1\}
+			\] 
+				
+			Prediction problem: If we have a new sample $X'_1, \ldots X'_m$, and we are interested in performing a permutation $\Pi$ over $\{1,\ldots m\}$ such as most of top elements of $X_{\Pi(1)}' \ldots X_{\Pi (m)}'$ are equal to +1. In other words, sorting such as labels +1 be in the top of the list. 
+
+			Reminder: $(X,Y)\sim\mathbb{P}\leadsto\eta(x)=\mathbb{P}(Y=+1|X=x)$
+
+			\textbf{Definition}: Optimum function of scoring
+
+			consider $s:\mathbb{R}^d\rightarrow\mathbb{R}$ such as 
+			\[
+				\forall x, x\in \mathbb{R}^d, s(x)>s(x') \Leftrightarrow\eta(x)>\eta(x')
+			\] 
+			we conclude that $s$ is the optimum function, therefore represented by $s^*$.
+
+			Remark: We are interested in finding the order induced by $\eta$ over $\mathbb{R}^d$.
+
+			\textbf{Property}: The function $s^*:\mathbb{R}^d\rightarrow\mathbb{R}$ is the optimum if:
+
+			\begin{itemize}
+				\item $\exists V$ a continuous random variable over $]0,1[$;
+				\item $\exists w:]0,1[\rightarrow\mathbb{R}_+$ and its integral
+				\item $\exists c\in\mathbb{R}$, such as $s^*(x)=c+\mathbb{E}[w(V)\mathds{1}_{\{\eta(x)>V\}}]\forall x\in\mathbb{R}^d$ 
+			\end{itemize}
+
+			Remarks:
+			\begin{enumerate}[i]%for capital roman numbers.
+				\item $s^*\Leftrightarrow[\{x:\eta(x)>v\}, v\in]0,1[]$;
+				\item $scoring problem of binary data \Leftrightarrow$ collection of asymmetric classification binary problems.
+			\end{enumerate}
+
+			\textbf{Proof}: 
+
+			\begin{itemize}
+				\item $\rightarrow) $
+
+								$s^*(x)-s^*(x') = $
+								\[
+									\int_{\eta(x')}^{\eta(x)} \underbrace{w(v)\,dP(v)}_{>0}
+								\]
+
+				\item $\leftarrow) $ 
+
+					\begin{itemize}
+						\item $s^*(x)\in[m,M]$ where $m=\operatorname{inf}s^*$ and $M=\operatorname{sup}s^*$
+						\item supposing that $\eta(x)$ is continuous in $]0,1[,$
+								\[
+ 									\forall(x), \eta(x)=\mathbb{E}(\mathds{1}_{\{\eta(x)>U\}})
+								\]
+								where random variable $U$ follows a uniform law over $[0,1]$
+					\end{itemize}
+
+			\end{itemize}
+			
