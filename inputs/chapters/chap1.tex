@@ -398,3 +398,67 @@
 
 			\end{itemize}
 			
+			Property:
+
+			V being a continuous random variable whose positive density over $I_l(\eta)=\{u:\eta(x)=u\}$. We conclude that:
+
+         \[
+			    s^*(x)=m+(M-m)/\mathbb{E}[\mathds{1}_{\{\eta(x)\}}>T^{-1(m+(M_m)U)}]
+			\]
+
+			, if $s^*=T\circ\eta,\uparrow T$.
+			
+			If $I_m(s^*)=[m,M],M-m=w(V)V$
+
+			(end of the proof). 
+
+			\textbf{Question}: Which criteria follow for scoring? (the goal is to find a \emph{good} one)
+			
+			$\rightarrow$ Probabilistic criteria
+
+			Assuming $(X,Y),(X',Y')$ \emph{i.i.d}, and $s:\mathbb{R}^d\rightarrow\mathbb{R}$, so that:
+         \[
+			    \mathbb{P}(x)=\mathbb{P}((s(x)-s(x'))(Y-Y')>0)
+			\]
+
+			a function to be optimized. We can show that $T\circ\eta\in\underset{s}{\operatorname{argmax}}\mathbb{P}(s)\forall T[0,1]\rightarrow\mathbb{R}\nearrow$
+
+			Note: $\mathbb{P}(s)$ represents the AUC of s. AUC stands for Area Under the ROC curve.
+
+			ROC curve definition:
+			
+			Consider $s:\mathbb{R}^d\rightarrow\mathbb{R}$ and $t\in\mathbb{R}$, the false and true positive rate are define respectively by:
+         \[
+			    FPR(s,t)=\mathbb{P}(s(x)>t|Y=-1)
+			\]
+         \[
+			    TPR(s,t)=\mathbb{P}(s(x)>t|Y=+1)
+			\]
+
+			ROC curve has the threshold $t$ as parameter, where $t\in]-\infty,+\infty[$
+         \[
+			    t\longmapsto(FPR(s,t),TPR(s,t))
+			\]
+			
+			\begin{figure}
+				\centering
+				\begin{tabular}{l@{}l@{}}
+			 		\includegraphics[width=0.45\textwidth]{inputs/img/roc_example} &
+					\includegraphics[width=0.45\textwidth]{inputs/img/roc_intro1.png} \\
+				\end{tabular}
+				\caption{The left-hand figure shows the common areas of ROC curve. The right-hand one show a example with two distributions, $t$ would be a threshold somewhere close to the the intersection point of the curves.}
+			  	\label{fig:chap1_scatters}
+			\end{figure}
+
+	     Proposed exercises:
+
+	     1) Represent the curves iso-error for classification. That means the error classification, such as:	
+			\[
+			  f_{s,t}(x) = \left\{
+			  \begin{array}{l l}
+			    +1 & \quad \text{if $s(x)>t$;}\\
+			    -1 & \quad \text{otherwise.}\\
+			  \end{array} \right.
+			\]
+	     2) Demonstrate the risks TPR, FPR to constant mass $\mathbb{P}(s(x)>t)=C$, where $C$ is a fixed constraint.
+	     3) Show that $\mathbb{P}(s(x)$ is equal to the area below ROC curve (that means, equal to AUC(s)).	
